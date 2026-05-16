@@ -12,7 +12,7 @@ export default function CuratorialText({ blocks }: Props) {
       </h2>
       {blocks.map((block) => (
         <p data-block-id={block.id} key={block.id}>
-          {block.text}
+          <span>{block.text}</span>
         </p>
       ))}
     </section>

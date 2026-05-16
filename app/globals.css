@@ -137,13 +137,15 @@ a {
 
 .curatorial-text p[data-block-id] {
   --reading-pressure: 0;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0 calc(100% - 0.18em);
-  background-repeat: no-repeat;
-  background-size: calc(var(--reading-pressure) * 100%) 1px;
-  transition:
-    background-size 160ms ease,
-    color 220ms ease;
+  transition: color 220ms ease;
+}
+
+.curatorial-text p[data-block-id] span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.24em;
+  text-decoration-color: color-mix(in srgb, currentColor calc(var(--reading-pressure) * 100%), transparent);
+  transition: text-decoration-color 160ms ease;
 }
 
 .curatorial-text p[data-reading-state="active"] {

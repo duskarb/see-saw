@@ -68,29 +68,16 @@ export default function ReadingTracker({ pageId }: Props) {
 
     const visibleBlocks = new Map<string, number>();
     const visibleElements = new Map<string, HTMLElement>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const element = entry.target as HTMLElement;
-          const blockId = element.dataset.blockId;
-          if (!blockId) return;
+    let activeBlocks = new Set<string>();
 
-          if (entry.isIntersecting && entry.intersectionRatio > 0.18) {
-            const wasVisible = visibleBlocks.has(blockId);
-            visibleBlocks.set(blockId, entry.intersectionRatio);
-            visibleElements.set(blockId, element);
-            element.dataset.readingState = "active";
-            element.style.setProperty("--reading-pressure", entry.intersectionRatio.toFixed(3));
-            emitEvent({
-              blockId,
-              eventType: wasVisible ? "heartbeat" : "enter",
-              visibleRatio: entry.intersectionRatio,
-              scrollY: window.scrollY,
-              scrollDepth: getScrollDepth()
-            });
-          } else if (visibleBlocks.has(blockId)) {
-            visibleBlocks.delete(blockId);
-            visibleElements.delete(blockId);
+    const updateActiveBlocks = () => {
+      const sorted = [...visibleBlocks.entries()].sort((a, b) => b[1] - a[1]);
+      const nextActive = new Set(sorted.slice(0, 2).map((e) => e[0]));
+
+      for (const blockId of activeBlocks) {
+        if (!nextActive.has(blockId)) {
+          const element = visibleElements.get(blockId);
+          if (element) {
             element.dataset.readingState = "leaving";
             element.style.setProperty("--reading-pressure", "0");
             window.setTimeout(() => {
@@ -98,15 +85,62 @@ export default function ReadingTracker({ pageId }: Props) {
                 delete element.dataset.readingState;
               }
             }, 900);
+
             emitEvent({
               blockId,
               eventType: "exit",
-              visibleRatio: entry.intersectionRatio,
+              visibleRatio: visibleBlocks.get(blockId) || 0,
               scrollY: window.scrollY,
               scrollDepth: getScrollDepth()
             });
           }
+        }
+      }
+
+      for (const blockId of nextActive) {
+        const element = visibleElements.get(blockId);
+        const ratio = visibleBlocks.get(blockId)!;
+        if (element) {
+          const wasActive = activeBlocks.has(blockId);
+          element.dataset.readingState = "active";
+          element.style.setProperty("--reading-pressure", ratio.toFixed(3));
+
+          if (!wasActive) {
+            emitEvent({
+              blockId,
+              eventType: "enter",
+              visibleRatio: ratio,
+              scrollY: window.scrollY,
+              scrollDepth: getScrollDepth()
+            });
+          }
+        }
+      }
+
+      activeBlocks = nextActive;
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let changed = false;
+        entries.forEach((entry) => {
+          const element = entry.target as HTMLElement;
+          const blockId = element.dataset.blockId;
+          if (!blockId) return;
+
+          if (entry.isIntersecting && entry.intersectionRatio > 0.18) {
+            visibleBlocks.set(blockId, entry.intersectionRatio);
+            visibleElements.set(blockId, element);
+            changed = true;
+          } else if (visibleBlocks.has(blockId)) {
+            visibleBlocks.delete(blockId);
+            changed = true;
+          }
         });
+
+        if (changed) {
+          updateActiveBlocks();
+        }
       },
       {
         threshold: [0, 0.18, 0.35, 0.55, 0.75, 1],
@@ -137,7 +171,8 @@ export default function ReadingTracker({ pageId }: Props) {
     };
 
     const heartbeat = window.setInterval(() => {
-      visibleBlocks.forEach((visibleRatio, blockId) => {
+      activeBlocks.forEach((blockId) => {
+        const visibleRatio = visibleBlocks.get(blockId) || 0;
         const element = visibleElements.get(blockId);
         element?.style.setProperty("--reading-pressure", visibleRatio.toFixed(3));
         emitEvent({
@@ -151,7 +186,8 @@ export default function ReadingTracker({ pageId }: Props) {
     }, 350);
 
     const leave = () => {
-      visibleBlocks.forEach((visibleRatio, blockId) => {
+      activeBlocks.forEach((blockId) => {
+        const visibleRatio = visibleBlocks.get(blockId) || 0;
         emitEvent({
           blockId,
           eventType: "leave",
