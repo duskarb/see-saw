@@ -14,14 +14,14 @@ function findLocalAddress() {
 }
 
 async function main() {
-  const host = process.env.QR_HOST ?? findLocalAddress();
-  const port = process.env.PORT ?? "3000";
+  const baseUrl = process.env.QR_BASE_URL
+    ?? `http://${process.env.QR_HOST ?? findLocalAddress()}:${process.env.PORT ?? "3000"}`;
   const pageIds = process.env.PAGE_ID ? [process.env.PAGE_ID] : Object.keys(texts);
   const outDir = path.join(process.cwd(), "public", "qr");
   await mkdir(outDir, { recursive: true });
 
   for (const pageId of pageIds) {
-    const url = `http://${host}:${port}/guide/${pageId}`;
+    const url = `${baseUrl}/guide/${pageId}`;
     const outPath = path.join(outDir, `${pageId}.svg`);
     const svg = await QRCode.toString(url, {
       type: "svg",
