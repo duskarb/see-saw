@@ -108,7 +108,7 @@ export default function ReadingTracker({ pageId }: Props) {
     let lastScrollEmit = 0;
     const onScroll = () => {
       const now = Date.now();
-      if (now - lastScrollEmit < 500) return;
+      if (now - lastScrollEmit < 180) return;
       lastScrollEmit = now;
 
       const deepestVisibleBlock = [...visibleBlocks.entries()].sort((a, b) => b[1] - a[1])[0];
@@ -133,7 +133,7 @@ export default function ReadingTracker({ pageId }: Props) {
           scrollDepth: getScrollDepth()
         });
       });
-    }, 1200);
+    }, 350);
 
     const leave = () => {
       visibleBlocks.forEach((visibleRatio, blockId) => {

@@ -5,6 +5,7 @@ const catalog = texts as TextsByPage;
 
 type OpenView = {
   enteredAt: number;
+  lastRecordedAt: number;
   visibleRatio: number;
 };
 
@@ -60,11 +61,16 @@ function closeOpenView(event: ReadingEvent) {
   const open = openViews.get(openKey);
   if (!open) return;
 
+  recordOpenViewTime(event, open);
+  openViews.delete(openKey);
+}
+
+function recordOpenViewTime(event: ReadingEvent, open: OpenView) {
   const aggregate = ensureAggregate(event.pageId, event.blockId);
-  const elapsed = Math.max(0, event.timestamp - open.enteredAt);
+  const elapsed = Math.max(0, event.timestamp - open.lastRecordedAt);
   aggregate.totalViewTime += elapsed * Math.max(0.15, open.visibleRatio);
   aggregate.lastActiveAt = event.timestamp;
-  openViews.delete(openKey);
+  open.lastRecordedAt = event.timestamp;
 }
 
 export function registerSession(session: SessionData) {
@@ -93,6 +99,7 @@ export function ingestEvent(event: ReadingEvent) {
 
     openViews.set(viewKey(event), {
       enteredAt: event.timestamp,
+      lastRecordedAt: event.timestamp,
       visibleRatio: event.visibleRatio ?? 1
     });
   }
@@ -100,6 +107,7 @@ export function ingestEvent(event: ReadingEvent) {
   if (event.eventType === "heartbeat") {
     const open = openViews.get(viewKey(event));
     if (open) {
+      recordOpenViewTime(event, open);
       open.visibleRatio = event.visibleRatio ?? open.visibleRatio;
     }
   }

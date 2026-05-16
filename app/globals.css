@@ -229,11 +229,11 @@ a {
   line-height: 1.18;
   transform: translate(-50%, -50%);
   transition:
-    opacity 900ms ease,
-    font-size 900ms ease,
-    filter 900ms ease,
-    left 1600ms ease,
-    top 1600ms ease;
+    opacity 260ms ease,
+    font-size 320ms ease,
+    filter 320ms ease,
+    left 620ms ease,
+    top 620ms ease;
   text-wrap: pretty;
   will-change: transform, opacity, font-size;
 }
