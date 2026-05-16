@@ -9,8 +9,8 @@ npm install
 npm run dev
 ```
 
-- Mobile guide: `http://localhost:3000/guide/object-01`
-- Display: `http://localhost:3000/display`
+- Mobile surface: `http://localhost:3000/see-saw`
+- Exhibition display: `http://localhost:3000/display`
 
 같은 Wi-Fi의 휴대폰에서 접속하려면 노트북의 로컬 IP를 사용합니다.
 
@@ -18,7 +18,7 @@ npm run dev
 npm run qr
 ```
 
-위 명령은 `public/qr/object-01.svg`를 생성합니다. 특정 주소로 QR을 만들려면:
+위 명령은 `public/qr/see-saw.svg`를 생성합니다. 특정 주소로 QR을 만들려면:
 
 ```bash
 QR_HOST=192.168.0.12 npm run qr
@@ -26,6 +26,7 @@ QR_HOST=192.168.0.12 npm run qr
 
 ## Prototype Scope
 
+- `/see-saw`: 작품 앞 관객이 사용하는 개인 모바일 표면
 - `/guide/object-01`: 공식 전시 안내처럼 보이는 모바일 큐레이션 페이지
 - `IntersectionObserver`: 문단별 enter / exit / heartbeat 이벤트 수집
 - Socket.IO: 읽기 이벤트를 서버로 실시간 전송

@@ -67,15 +67,20 @@ export default function ReadingTracker({ pageId }: Props) {
     socket.emit("session:start", session);
 
     const visibleBlocks = new Map<string, number>();
+    const visibleElements = new Map<string, HTMLElement>();
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const blockId = (entry.target as HTMLElement).dataset.blockId;
+          const element = entry.target as HTMLElement;
+          const blockId = element.dataset.blockId;
           if (!blockId) return;
 
           if (entry.isIntersecting && entry.intersectionRatio > 0.18) {
             const wasVisible = visibleBlocks.has(blockId);
             visibleBlocks.set(blockId, entry.intersectionRatio);
+            visibleElements.set(blockId, element);
+            element.dataset.readingState = "active";
+            element.style.setProperty("--reading-pressure", entry.intersectionRatio.toFixed(3));
             emitEvent({
               blockId,
               eventType: wasVisible ? "heartbeat" : "enter",
@@ -85,6 +90,14 @@ export default function ReadingTracker({ pageId }: Props) {
             });
           } else if (visibleBlocks.has(blockId)) {
             visibleBlocks.delete(blockId);
+            visibleElements.delete(blockId);
+            element.dataset.readingState = "leaving";
+            element.style.setProperty("--reading-pressure", "0");
+            window.setTimeout(() => {
+              if (element.dataset.readingState === "leaving") {
+                delete element.dataset.readingState;
+              }
+            }, 900);
             emitEvent({
               blockId,
               eventType: "exit",
@@ -125,6 +138,8 @@ export default function ReadingTracker({ pageId }: Props) {
 
     const heartbeat = window.setInterval(() => {
       visibleBlocks.forEach((visibleRatio, blockId) => {
+        const element = visibleElements.get(blockId);
+        element?.style.setProperty("--reading-pressure", visibleRatio.toFixed(3));
         emitEvent({
           blockId,
           eventType: "heartbeat",
