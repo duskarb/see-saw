@@ -26,6 +26,7 @@ export type TextBlock = {
 };
 
 export type BlockAggregate = {
+  pageId: string;
   blockId: string;
   text: string;
   totalViewTime: number;

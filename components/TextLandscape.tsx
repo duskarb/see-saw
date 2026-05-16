@@ -62,7 +62,7 @@ export default function TextLandscape() {
         return (
           <p
             className="landscape-line"
-            key={block.blockId}
+            key={`${block.pageId}:${block.blockId}`}
             style={{
               left: `${x}%`,
               top: `${y}%`,

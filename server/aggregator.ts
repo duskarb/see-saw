@@ -32,6 +32,7 @@ function ensureAggregate(pageId: string, blockId: string) {
   if (existing) return existing;
 
   const aggregate: BlockAggregate = {
+    pageId,
     blockId,
     text: findBlockText(pageId, blockId),
     totalViewTime: 0,
