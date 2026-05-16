@@ -1,0 +1,247 @@
+{
+  "resonance": {
+    "objectNo": "Final Project",
+    "title": "Resonance",
+    "author": "Jihun Park",
+    "year": "2025",
+    "course": "IPD Course",
+    "material": "Spherical speaker, vibration, bone conduction, dynamic LED feedback",
+    "summary": "A spherical speaker designed to be hugged, allowing music to be felt through the body as vibration, light, and intimate presence.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "Resonance is a spherical speaker designed to be hugged, allowing users to feel music through their body using bone conduction and dynamic LED feedback. Beyond sound, it offers a multi-sensory emotional experience through vibration and light."
+      },
+      {
+        "id": "p02",
+        "text": "The project begins from the desire to make music more than a passive act of listening. By asking the listener to hold the speaker close, it shifts audio from a distant signal into something that can be felt physically and emotionally."
+      },
+      {
+        "id": "p03",
+        "text": "The form draws upon the metaphor of space. Space represents a place of emotional refuge, a quiet separation from reality, and a temporary room in which the listener can enter their own sonic universe."
+      },
+      {
+        "id": "p04",
+        "text": "By hugging the speaker, the user symbolically boards a tiny personal spaceship. The spacecraft form reflects a journey away from noise and toward the self."
+      },
+      {
+        "id": "p05",
+        "text": "The object does not simply deliver audio. It frames solitude as a designed condition, using light, surface, weight, and vibration to make inner attention visible."
+      },
+      {
+        "id": "p06",
+        "text": "Resonance offers not just sound, but an escape into feeling: a gift of presence, a moment of solitude, sound, and self-connection."
+      }
+    ]
+  },
+  "artifit": {
+    "objectNo": "Final Project",
+    "title": "ARTIFIT",
+    "author": "Changhyun Park",
+    "year": "2025",
+    "course": "IPD Course",
+    "material": "Wearable device, shelf, robotic arm, Bluetooth, pen drawing",
+    "summary": "A fitness companion that translates workout intensity and motion into analog drawings made by a robotic arm.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "ARTIFIT is a unique fitness companion combining a wearable device, a shelf, and a robotic arm to transform home workouts into an engaging artistic experience."
+      },
+      {
+        "id": "p02",
+        "text": "The wearable device monitors heart rate and motion, sending data via Bluetooth to the robotic arm, which then draws lines reflecting the user's exercise intensity and movement."
+      },
+      {
+        "id": "p03",
+        "text": "Inspired by interactive workout products like Ringfit, ARTIFIT replaces digital graphics with analog, tangible creativity, motivating users through the evolving artwork."
+      },
+      {
+        "id": "p04",
+        "text": "The system emphasizes fun, interaction, and recordkeeping by allowing users to change pen colors, track different exercises, and observe their workout's dynamic visual expression."
+      },
+      {
+        "id": "p05",
+        "text": "It aims to encourage those who find exercise boring by offering simple yet meaningful engagement without complex interfaces."
+      },
+      {
+        "id": "p06",
+        "text": "Future plans focus on enhancing the robotic arm's drawing capabilities, refining firmware for subtle motion capture, and conducting user feedback sessions to improve the overall experience."
+      }
+    ]
+  },
+  "calm": {
+    "objectNo": "System Design",
+    "title": "C.A.L.M",
+    "author": "Gaeheon Lee, Hyerin Na, Jungin Park, Hyungseok Moon, Yenglik Tleukulova",
+    "year": "2025",
+    "course": "System Design",
+    "material": "AI-moderated debate, legal guidance, proposal summary interface",
+    "summary": "Civic AI Law Moderator that supports public participation in legislative proposals through AI-moderated debates and concise outcome summaries.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "C.A.L.M is a Civic AI Law Moderator that empowers users to engage with and refine legislative proposals through AI-moderated debates, on-demand legal guidance, and concise outcome summaries."
+      },
+      {
+        "id": "p02",
+        "text": "The project addresses the difficulty of public participation in legal discussion, where ordinary voices are often filtered by specialized language, institutional distance, or the fear of speaking incorrectly."
+      },
+      {
+        "id": "p03",
+        "text": "By structuring discussion into guided turns, the system allows disagreement to remain productive while helping participants understand the legal and social consequences of a proposal."
+      },
+      {
+        "id": "p04",
+        "text": "Its moderation does not replace civic judgment. Instead, it provides a shared surface where arguments can be clarified, condensed, compared, and returned to the group."
+      },
+      {
+        "id": "p05",
+        "text": "The phrase 'Everyone's voice has a right to be understood' becomes both a service promise and a design constraint, asking the interface to make complexity more approachable without flattening difference."
+      },
+      {
+        "id": "p06",
+        "text": "C.A.L.M imagines legislation not as a remote expert procedure, but as a public conversation whose quality depends on the tools through which people learn to listen."
+      }
+    ]
+  },
+  "photo-techniques": {
+    "objectNo": "Course Exhibition",
+    "title": "ID218 Photo Techniques",
+    "author": "Eun-woo Kang, Na-eun Kim, Yu-na Kim, So-hyun Park, Jung-won Park, In-sung Seo, Yoon-ho Wang, Si-yoon Yoo, Jae-yong Lee, Jun-hyun Lee, Jin-woo Lee, Hyun-jun Jung, Chang-won Choi",
+    "year": "2025",
+    "course": "ID218 Photo Techniques",
+    "material": "Manual camera operation, studio lighting, scientific imaging, image generation",
+    "summary": "A course exhibition exploring photography as technical reproduction, visual language, and a framework for expanded creative practice.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "Photography extends beyond technical reproduction and functions as a critical visual language through which the ontological and socio-cultural meanings of images can be explored."
+      },
+      {
+        "id": "p02",
+        "text": "This course aims to establish a systematic understanding of photographic techniques while examining aesthetic experiences through the frameworks of photographic philosophy and media aesthetics."
+      },
+      {
+        "id": "p03",
+        "text": "In response to rapidly evolving media environments, the course integrates AI-based image generation technologies into photographic practice."
+      },
+      {
+        "id": "p04",
+        "text": "The practical component emphasizes manual camera operation to develop an understanding of optical principles and exposure control."
+      },
+      {
+        "id": "p05",
+        "text": "Students work with studio lighting techniques that investigate the sculptural and narrative qualities of light, connecting technical control to expressive intention."
+      },
+      {
+        "id": "p06",
+        "text": "The course also introduces scientific imaging through electron microscopy and creative production using AI generators, fostering experimental methodologies that integrate traditional techniques with emerging technologies."
+      }
+    ]
+  },
+  "handheld-product": {
+    "objectNo": "Basic Design",
+    "title": "Handheld Product Project",
+    "author": "Department of Industrial Design",
+    "year": "2025",
+    "course": "Basic Design",
+    "material": "Geometric primitives, organic surfaces, handheld product redesign",
+    "summary": "A basic design project exploring the intersection of geometric clarity, organic transformation, and usability through handheld product forms.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "Handheld product project is a final project guiding students to explore the intersection of geometric clarity and organic transformation through the redesign of a hair dryer."
+      },
+      {
+        "id": "p02",
+        "text": "Starting with two or three basic geometric primitives such as cones, cylinders, or cubes, students create dynamic compositions by joining them with exaggerated organic surfaces."
+      },
+      {
+        "id": "p03",
+        "text": "Before the handheld product project, students explore pure geometric composition with rectangular volumes to create a sense of balance, tension, and overall aesthetics."
+      },
+      {
+        "id": "p04",
+        "text": "The project brings in the elements of utility and usability while still retaining balance and tension in form-giving with the purity of geometry."
+      },
+      {
+        "id": "p05",
+        "text": "By compressing a functional object into a controlled formal exercise, the course asks students to negotiate between abstract composition and embodied use."
+      },
+      {
+        "id": "p06",
+        "text": "This project gives an opportunity to study how a handheld object can remain practical while carrying a precise visual argument about proportion, surface, and transformation."
+      }
+    ]
+  },
+  "niche-prize": {
+    "objectNo": "Midterm Project",
+    "title": "The Niche Prize Awards",
+    "author": "Department of Industrial Design",
+    "year": "2025",
+    "course": "CAD Course",
+    "material": "CAD, symbolic trophy, personal narrative, 3D print",
+    "summary": "A fictional award project translating personal passions and overlooked values into symbolic trophy forms.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "The Niche Prize Awards is a midterm design project where students were asked to create a fictional award that represents their personal area of highest interest."
+      },
+      {
+        "id": "p02",
+        "text": "Each student designs a symbolic trophy to visualize the meaning of the award, turning an individual interest into a physical object that can be publicly displayed."
+      },
+      {
+        "id": "p03",
+        "text": "Each trophy on display reflects a personal narrative, celebrating the overlooked, the unconventional, and the deeply individual."
+      },
+      {
+        "id": "p04",
+        "text": "From defining the award's purpose and values to constructing its visual identity, students explore how meaning can be embedded in design through CAD."
+      },
+      {
+        "id": "p05",
+        "text": "This project reframes CAD not just as a technical skill, but as a medium for translating identity, emotion, and values into physical form."
+      },
+      {
+        "id": "p06",
+        "text": "The resulting objects make the invisible visible: a small private attachment becomes a public sign, and a personal passion takes on the posture of an official prize."
+      }
+    ]
+  },
+  "object-01": {
+    "objectNo": "Mobile Guide",
+    "title": "Altered Seeing",
+    "author": "Department of Industrial Design",
+    "year": "2026",
+    "course": "Permanent Exhibition",
+    "material": "Exhibition text, mobile browser, reading duration, collective display",
+    "summary": "A prototype guide that uses the familiar form of exhibition interpretation to observe how reading itself becomes part of the installation.",
+    "blocks": [
+      {
+        "id": "p01",
+        "text": "This guide follows the language of the permanent exhibition: a title on the left, a project description on the right, and the quiet authority of a label that asks to be trusted."
+      },
+      {
+        "id": "p02",
+        "text": "The interface does not introduce itself as an experiment. It borrows the dry surface of institutional explanation so that reading can proceed without theatrical emphasis."
+      },
+      {
+        "id": "p03",
+        "text": "Each paragraph becomes a small sensor of attention. The text is not only displayed on the screen; it is measured by the time it remains visible, the depth of a scroll, and the moment of return."
+      },
+      {
+        "id": "p04",
+        "text": "In the exhibition space, this creates a second layer of looking. Visitors believe they are reading about objects, while their reading slowly creates another object elsewhere in the room."
+      },
+      {
+        "id": "p05",
+        "text": "The most persistent sentences become heavier, darker, and more central. Others fade before they are remembered, leaving a landscape shaped by collective trust."
+      },
+      {
+        "id": "p06",
+        "text": "What remains at the end is not a dashboard of visitors, but a text formed by reading: an image of how explanation can become material."
+      }
+    ]
+  }
+}

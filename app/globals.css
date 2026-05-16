@@ -1,0 +1,247 @@
+:root {
+  --paper: #f4f3ee;
+  --ink: #111111;
+  --muted: #6b6b66;
+  --line: #d2d0c8;
+  --label: #dedbd4;
+  --display-bg: #0d0d0c;
+  --display-ink: #e8e3d8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+.guide-shell {
+  min-height: 100svh;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 100%) 0 0 / 48px 48px,
+    var(--paper);
+}
+
+.guide-page {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: 24px 20px 44px;
+}
+
+.guide-header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+}
+
+.department {
+  font-size: 12px;
+  letter-spacing: 0;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.object-meta {
+  display: grid;
+  gap: 28px;
+  margin: 28px 0 34px;
+  padding: 28px 0 30px;
+  border-bottom: 1px solid var(--line);
+}
+
+.object-identity {
+  display: grid;
+  gap: 12px;
+}
+
+.object-number {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.object-title {
+  margin: 0;
+  font-size: clamp(34px, 12vw, 54px);
+  font-weight: 400;
+  line-height: 1.04;
+  max-width: 8.5em;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  column-gap: 16px;
+  row-gap: 8px;
+  font-size: 13px;
+  line-height: 1.38;
+  max-width: 360px;
+}
+
+.meta-row dt {
+  color: var(--muted);
+}
+
+.meta-row dd {
+  margin: 0;
+}
+
+.summary {
+  margin: 0;
+  color: #252522;
+  font-size: clamp(18px, 5.2vw, 25px);
+  line-height: 1.34;
+  font-weight: 500;
+  text-wrap: pretty;
+}
+
+.section-label {
+  margin: 0 0 19px;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.curatorial-text {
+  padding-top: 4px;
+}
+
+.curatorial-text p {
+  margin: 0 0 24px;
+  color: #161614;
+  font-size: 16px;
+  line-height: 1.66;
+  word-break: keep-all;
+  text-wrap: pretty;
+}
+
+.guide-footer {
+  margin-top: 34px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.route-list {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.route-list a {
+  display: grid;
+  gap: 6px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.route-list span {
+  font-size: 20px;
+}
+
+.route-list small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media (min-width: 760px) {
+  .guide-page {
+    padding: 34px 42px 56px;
+  }
+
+  .object-meta {
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+    align-items: start;
+    min-height: 280px;
+  }
+
+  .summary {
+    padding-top: 44px;
+  }
+
+  .curatorial-text {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+    column-gap: 28px;
+  }
+
+  .section-label {
+    margin-top: 4px;
+  }
+
+  .curatorial-text p {
+    grid-column: 2;
+    font-size: 17px;
+  }
+}
+
+.display-page {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 48% 45%, rgba(232, 227, 216, 0.08), transparent 38%),
+    linear-gradient(180deg, #11110f 0%, var(--display-bg) 100%);
+  color: var(--display-ink);
+}
+
+.display-mark {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  z-index: 3;
+  color: rgba(232, 227, 216, 0.55);
+  font-size: 13px;
+}
+
+.landscape {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+}
+
+.landscape-line {
+  position: absolute;
+  max-width: min(56vw, 840px);
+  color: var(--display-ink);
+  line-height: 1.18;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 900ms ease,
+    font-size 900ms ease,
+    filter 900ms ease,
+    left 1600ms ease,
+    top 1600ms ease;
+  text-wrap: pretty;
+  will-change: transform, opacity, font-size;
+}
+
+.landscape-line::selection {
+  background: transparent;
+}
+
+.display-empty {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(232, 227, 216, 0.34);
+  font-size: clamp(18px, 2vw, 28px);
+}

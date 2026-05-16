@@ -1,0 +1,31 @@
+{
+  "name": "altered-seeing-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx server/index.ts",
+    "build": "next build",
+    "start": "NODE_ENV=production tsx server/index.ts",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "qr": "tsx scripts/generate-qr.ts"
+  },
+  "dependencies": {
+    "@types/qrcode": "^1.5.5",
+    "next": "^15.3.2",
+    "qrcode": "^1.5.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.18",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.5",
+    "eslint": "^9.27.0",
+    "eslint-config-next": "^15.3.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
