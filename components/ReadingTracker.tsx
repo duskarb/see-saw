@@ -66,33 +66,25 @@ export default function ReadingTracker({ pageId }: Props) {
     };
     socket.emit("session:start", session);
 
-    const visibleBlocks = new Map<string, number>();
-    const visibleElements = new Map<string, HTMLElement>();
+    const allBlockElements = Array.from(document.querySelectorAll<HTMLElement>("[data-block-id]"));
     let activeBlocks = new Set<string>();
 
     const updateActiveBlocks = () => {
-      // If we are at or very near the bottom of the page
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+      if (allBlockElements.length === 0) return;
 
-      const sorted = [...visibleBlocks.keys()].sort((a, b) => {
-        const rectA = visibleElements.get(a)?.getBoundingClientRect();
-        const rectB = visibleElements.get(b)?.getBoundingClientRect();
-        const topA = rectA ? rectA.top : 0;
-        const topB = rectB ? rectB.top : 0;
-        return topA - topB;
-      });
-
-      let selectedBlocks: string[];
-      if (isAtBottom && sorted.length >= 2) {
-        selectedBlocks = sorted.slice(-2);
-      } else {
-        selectedBlocks = sorted.slice(0, 2);
-      }
-      const nextActive = new Set(selectedBlocks);
+      const scrollDepth = getScrollDepth();
+      const activeIndex = scrollDepth === 1 
+        ? allBlockElements.length - 1 
+        : Math.floor(scrollDepth * allBlockElements.length);
+        
+      const activeElement = allBlockElements[activeIndex];
+      const selectedBlockId = activeElement.dataset.blockId!;
+      
+      const nextActive = new Set([selectedBlockId]);
 
       for (const blockId of activeBlocks) {
         if (!nextActive.has(blockId)) {
-          const element = visibleElements.get(blockId);
+          const element = allBlockElements.find(el => el.dataset.blockId === blockId);
           if (element) {
             element.dataset.readingState = "leaving";
             element.style.setProperty("--reading-pressure", "0");
@@ -105,98 +97,62 @@ export default function ReadingTracker({ pageId }: Props) {
             emitEvent({
               blockId,
               eventType: "exit",
-              visibleRatio: visibleBlocks.get(blockId) || 0,
+              visibleRatio: 0,
               scrollY: window.scrollY,
-              scrollDepth: getScrollDepth()
+              scrollDepth
             });
           }
         }
       }
 
       for (const blockId of nextActive) {
-        const element = visibleElements.get(blockId);
-        const ratio = visibleBlocks.get(blockId)!;
-        if (element) {
-          const wasActive = activeBlocks.has(blockId);
-          element.dataset.readingState = "active";
-          element.style.setProperty("--reading-pressure", ratio.toFixed(3));
+        const element = activeElement;
+        const wasActive = activeBlocks.has(blockId);
+        element.dataset.readingState = "active";
+        element.style.setProperty("--reading-pressure", "1");
 
-          if (!wasActive) {
-            emitEvent({
-              blockId,
-              eventType: "enter",
-              visibleRatio: ratio,
-              scrollY: window.scrollY,
-              scrollDepth: getScrollDepth()
-            });
-          }
+        if (!wasActive) {
+          emitEvent({
+            blockId,
+            eventType: "enter",
+            visibleRatio: 1,
+            scrollY: window.scrollY,
+            scrollDepth
+          });
         }
       }
 
       activeBlocks = nextActive;
     };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let changed = false;
-        entries.forEach((entry) => {
-          const element = entry.target as HTMLElement;
-          const blockId = element.dataset.blockId;
-          if (!blockId) return;
-
-          if (entry.isIntersecting && entry.intersectionRatio > 0.18) {
-            visibleBlocks.set(blockId, entry.intersectionRatio);
-            visibleElements.set(blockId, element);
-            changed = true;
-          } else if (visibleBlocks.has(blockId)) {
-            visibleBlocks.delete(blockId);
-            changed = true;
-          }
-        });
-
-        if (changed) {
-          updateActiveBlocks();
-        }
-      },
-      {
-        threshold: [0, 0.18, 0.35, 0.55, 0.75, 1],
-        rootMargin: "0px 0px -12% 0px"
-      }
-    );
-
-    document.querySelectorAll<HTMLElement>("[data-block-id]").forEach((element) => {
-      observer.observe(element);
-    });
+    // Initial evaluation
+    updateActiveBlocks();
 
     let lastScrollEmit = 0;
     const onScroll = () => {
+      updateActiveBlocks();
+
       const now = Date.now();
       if (now - lastScrollEmit < 180) return;
       lastScrollEmit = now;
 
-      updateActiveBlocks();
-
-      const deepestVisibleBlock = [...visibleBlocks.entries()].sort((a, b) => b[1] - a[1])[0];
-      if (!deepestVisibleBlock) return;
-
-      emitEvent({
-        blockId: deepestVisibleBlock[0],
-        eventType: "scroll",
-        visibleRatio: deepestVisibleBlock[1],
-        scrollY: window.scrollY,
-        scrollDepth: getScrollDepth()
+      activeBlocks.forEach((blockId) => {
+        emitEvent({
+          blockId,
+          eventType: "scroll",
+          visibleRatio: 1,
+          scrollY: window.scrollY,
+          scrollDepth: getScrollDepth()
+        });
       });
     };
 
     const heartbeat = window.setInterval(() => {
       activeBlocks.forEach((blockId) => {
-        const visibleRatio = visibleBlocks.get(blockId) || 0;
-        const element = visibleElements.get(blockId);
-        element?.style.setProperty("--reading-pressure", visibleRatio.toFixed(3));
         emitEvent({
           blockId,
           eventType: "heartbeat",
-          visibleRatio,
+          visibleRatio: 1,
           scrollY: window.scrollY,
           scrollDepth: getScrollDepth()
         });
@@ -205,11 +161,10 @@ export default function ReadingTracker({ pageId }: Props) {
 
     const leave = () => {
       activeBlocks.forEach((blockId) => {
-        const visibleRatio = visibleBlocks.get(blockId) || 0;
         emitEvent({
           blockId,
           eventType: "leave",
-          visibleRatio,
+          visibleRatio: 1,
           scrollY: window.scrollY,
           scrollDepth: getScrollDepth()
         });
@@ -226,7 +181,6 @@ export default function ReadingTracker({ pageId }: Props) {
 
     return () => {
       leave();
-      observer.disconnect();
       window.clearInterval(heartbeat);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pagehide", leave);

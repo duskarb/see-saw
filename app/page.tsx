@@ -11,16 +11,16 @@ export default function Home() {
     <main className="guide-shell">
       <div className="guide-page">
         <header className="guide-header">
-          <div className="department">Industrial Design Permanent Exhibition</div>
+          <div className="department">Department of Industrial Design</div>
         </header>
         <section className="object-meta">
           <div className="object-identity">
-            <div className="object-number">Prototype routes</div>
-            <h1 className="object-title">Altered Seeing / &lt;see-saw&gt;</h1>
+            <div className="object-number">Exhibition System</div>
+            <h1 className="object-title">KAIST Industrial Design Exhibition Guide</h1>
           </div>
-          <p className="summary">Local entry points prepared from the exhibition labels.</p>
+          <p className="summary">Official guide and local entry points for the exhibition labels.</p>
         </section>
-        <nav className="route-list" aria-label="Prototype pages">
+        <nav className="route-list" aria-label="Exhibition pages">
           {pages.map(([pageId, page]) => (
             <Link href={`/guide/${pageId}`} key={pageId}>
               <span>{page.title}</span>
@@ -28,14 +28,17 @@ export default function Home() {
             </Link>
           ))}
           <Link href="/see-saw">
-            <span>Altered Seeing / &lt;see-saw&gt;</span>
-            <small>Mobile surface</small>
+            <span>Mobile Surface Test</span>
+            <small>Internal use</small>
           </Link>
           <Link href="/display">
-            <span>&lt;see-saw&gt;</span>
-            <small>Exhibition display</small>
+            <span>Live Exhibition Text Display</span>
+            <small>Dashboard</small>
           </Link>
         </nav>
+        <footer className="guide-footer" style={{ marginTop: '4rem', opacity: 0.5, fontSize: '0.75rem', textAlign: 'center' }}>
+          Altered Seeing / &lt;see-saw&gt;
+        </footer>
       </div>
     </main>
   );

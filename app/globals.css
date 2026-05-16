@@ -1,11 +1,11 @@
 :root {
   --paper: #ffffff;
-  --ink: #111111;
+  --ink: #000000;
   --muted: #6b6b66;
   --line: #d2d0c8;
   --label: #dedbd4;
-  --display-bg: #0d0d0c;
-  --display-ink: #e8e3d8;
+  --display-bg: #000000;
+  --display-ink: #ffffff;
 }
 
 * {
@@ -144,7 +144,11 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.24em;
-  text-decoration-color: color-mix(in srgb, currentColor calc(var(--reading-pressure) * 100%), transparent);
+  text-decoration-color: color-mix(
+    in srgb,
+    currentColor calc(var(--reading-pressure) * 100%),
+    transparent
+  );
   transition: text-decoration-color 160ms ease;
 }
 
@@ -258,7 +262,6 @@ a {
   text-wrap: pretty;
   will-change: transform, opacity, font-size;
 }
-
 
 .landscape-line[data-echo="active"] {
   text-shadow: 0 0 calc(var(--arrival) * 18px) rgba(232, 227, 216, 0.18);

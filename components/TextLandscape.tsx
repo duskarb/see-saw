@@ -12,12 +12,18 @@ type Snapshot = {
 };
 
 const anchors = [
-  { x: 50, y: 44 },
-  { x: 35, y: 31 },
-  { x: 64, y: 29 },
-  { x: 40, y: 62 },
-  { x: 62, y: 63 },
-  { x: 50, y: 76 }
+  { x: 20, y: 20 },
+  { x: 80, y: 20 },
+  { x: 20, y: 80 },
+  { x: 80, y: 80 },
+  { x: 50, y: 15 },
+  { x: 50, y: 85 },
+  { x: 15, y: 50 },
+  { x: 85, y: 50 },
+  { x: 30, y: 35 },
+  { x: 70, y: 35 },
+  { x: 30, y: 65 },
+  { x: 70, y: 65 }
 ];
 
 function clamp(value: number, min: number, max: number) {
@@ -45,38 +51,55 @@ export default function TextLandscape() {
   }
 
   return (
-    <section className="landscape" aria-label="Collective reading trace">
+    <section className="landscape" aria-label="Live Exhibition Text">
       {snapshot.blocks.map((block, index) => {
-        const weight = block.totalViewTime / maxViewTime;
-        const anchor = anchors[index % anchors.length];
+        const weight = clamp(block.totalViewTime / maxViewTime, 0, 1);
+        
+        // 실시간으로 읽히고 있는 텍스트인지 판별
         const recentAge = block.lastActiveAt ? snapshot.generatedAt - block.lastActiveAt : Infinity;
-        const recent = clamp(1 - recentAge / 7000, 0, 1);
-        const echo = clamp(1 - recentAge / 45000, 0, 1);
-        const arrival = clamp(1 - Math.abs(recentAge - 2400) / 2400, 0, 1);
-        const centerPull = weight * 18;
-        const drift = Math.sin((snapshot.generatedAt / 3500 + index) * 0.9) * (2 + recent * 2 + arrival * 1.6);
-        const fontSize = clamp(18 + weight * 40 + block.viewCount * 1.4, 16, 76);
-        const opacity = clamp(0.12 + weight * 0.64 + block.viewCount * 0.055 + recent * 0.18 + echo * 0.12, 0.1, 0.94);
-        const letterSpacing = clamp(block.revisitCount * 0.18, 0, 2.6);
-        const blur = clamp(2.4 - weight * 2 - recent * 1.1 - echo * 0.7, 0, 2.4);
-        const x = anchor.x + (50 - anchor.x) * (centerPull / 100) + drift;
-        const y = anchor.y + (50 - anchor.y) * (centerPull / 100) - drift * 0.55;
+        const currentFocus = clamp(1 - recentAge / 2500, 0, 1);
+        
+        // 1. 시간이 지나면 사라짐 (예: 60초 지나면 크기가 0)
+        const survivalRate = clamp(1 - recentAge / 60000, 0, 1);
+        
+        // 2. 오래 읽힘 -> 커짐
+        const baseFontSize = 16 + weight * 100; // 최대 116px까지 커짐
+        
+        // 3. 빠르게 지나감 -> 벌어짐
+        const averageTime = block.viewCount > 0 ? block.totalViewTime / block.viewCount : 0;
+        const readDepth = block.viewCount > 0 ? clamp(averageTime / 4000, 0, 1) : 0;
+        const letterSpacing = block.viewCount > 0 ? clamp((1 - readDepth) * 0.6, 0, 0.6) : 0; // 최대 0.6em 벌어짐
+        
+        // 4. 고정된 다양한 위치 (가운데 몰림 방지)
+        const anchor = anchors[index % anchors.length];
+        const x = anchor.x;
+        const y = anchor.y;
+
+        // ★ 현재 읽고 있는 텍스트가 치열하게 앞으로 튀어나오게
+        const targetFontSize = baseFontSize + currentFocus * 120; 
+        const finalFontSize = targetFontSize * survivalRate; // survivalRate 곱해서 서서히 크기가 줄어들며 소멸
+        const finalZIndex = Math.round(weight * 100) + Math.round(currentFocus * 9999); 
+
+        if (finalFontSize < 0.5) return null; // 크기가 거의 0이면 DOM에서 제거
+
+        const isDecaying = currentFocus === 0;
+        const transitionStyle = isDecaying 
+          ? "all 2.5s linear" 
+          : "all 0.2s ease-out";
+
         const lineStyle = {
           left: `${x}%`,
           top: `${y}%`,
-          fontSize,
-          opacity,
-          letterSpacing,
-          filter: `blur(${blur}px) drop-shadow(0 0 ${recent * 18 + echo * 12}px rgba(232, 227, 216, ${recent * 0.26 + echo * 0.18}))`,
-          zIndex: Math.round(weight * 100),
-          "--echo": echo.toFixed(3),
-          "--arrival": arrival.toFixed(3)
-        } as CSSProperties & Record<"--echo" | "--arrival", string>;
+          fontSize: `${finalFontSize}px`,
+          opacity: 1, // 투명도는 100% 고정
+          letterSpacing: `${letterSpacing}em`,
+          zIndex: finalZIndex,
+          transition: transitionStyle 
+        } as CSSProperties;
 
         return (
           <p
             className="landscape-line"
-            data-echo={echo > 0 ? "active" : undefined}
             key={`${block.pageId}:${block.blockId}`}
             style={lineStyle}
           >
