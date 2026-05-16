@@ -1,5 +1,5 @@
 :root {
-  --paper: #f4f3ee;
+  --paper: #ffffff;
   --ink: #111111;
   --muted: #6b6b66;
   --line: #d2d0c8;
@@ -35,7 +35,8 @@ a {
 .guide-shell {
   min-height: 100svh;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 100%) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(0, 0, 0, 0.025) 0 1px, transparent 1px 100%) 0
+      0 / 48px 48px,
     var(--paper);
 }
 
@@ -197,7 +198,11 @@ a {
   inset: 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 48% 45%, rgba(232, 227, 216, 0.08), transparent 38%),
+    radial-gradient(
+      circle at 48% 45%,
+      rgba(232, 227, 216, 0.08),
+      transparent 38%
+    ),
     linear-gradient(180deg, #11110f 0%, var(--display-bg) 100%);
   color: var(--display-ink);
 }
