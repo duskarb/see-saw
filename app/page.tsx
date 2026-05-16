@@ -21,6 +21,12 @@ export default function Home() {
           <p className="summary">Local entry points prepared from the exhibition labels.</p>
         </section>
         <nav className="route-list" aria-label="Prototype pages">
+          {pages.map(([pageId, page]) => (
+            <Link href={`/guide/${pageId}`} key={pageId}>
+              <span>{page.title}</span>
+              <small>{page.year} {page.course}</small>
+            </Link>
+          ))}
           <Link href="/see-saw">
             <span>Altered Seeing / &lt;see-saw&gt;</span>
             <small>Mobile surface</small>
@@ -29,12 +35,6 @@ export default function Home() {
             <span>&lt;see-saw&gt;</span>
             <small>Exhibition display</small>
           </Link>
-          {pages.map(([pageId, page]) => (
-            <Link href={`/guide/${pageId}`} key={pageId}>
-              <span>{page.title}</span>
-              <small>{page.year} {page.course}</small>
-            </Link>
-          ))}
         </nav>
       </div>
     </main>
