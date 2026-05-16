@@ -259,22 +259,6 @@ a {
   will-change: transform, opacity, font-size;
 }
 
-.landscape-line::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.16em;
-  height: 1px;
-  pointer-events: none;
-  background: currentColor;
-  opacity: calc(var(--echo) * 0.58 + var(--arrival) * 0.28);
-  transform: scaleX(calc(var(--echo) * 0.74 + var(--arrival) * 0.26));
-  transform-origin: left center;
-  transition:
-    opacity 420ms ease,
-    transform 520ms ease;
-}
 
 .landscape-line[data-echo="active"] {
   text-shadow: 0 0 calc(var(--arrival) * 18px) rgba(232, 227, 216, 0.18);

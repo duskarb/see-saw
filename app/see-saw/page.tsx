@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CuratorialText from "@/components/CuratorialText";
 import ReadingTracker from "@/components/ReadingTracker";
 import texts from "@/data/texts.json";
@@ -13,7 +14,9 @@ export default function SeeSawPage() {
       <ReadingTracker pageId={pageId} />
       <article className="guide-page">
         <header className="guide-header">
-          <div className="department">Industrial Design Permanent Exhibition</div>
+          <Link href="/" className="department" style={{ textDecoration: "none" }}>
+            Industrial Design Permanent Exhibition
+          </Link>
         </header>
 
         <section className="object-meta" aria-labelledby="object-title">

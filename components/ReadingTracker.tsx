@@ -71,8 +71,24 @@ export default function ReadingTracker({ pageId }: Props) {
     let activeBlocks = new Set<string>();
 
     const updateActiveBlocks = () => {
-      const sorted = [...visibleBlocks.entries()].sort((a, b) => b[1] - a[1]);
-      const nextActive = new Set(sorted.slice(0, 2).map((e) => e[0]));
+      // If we are at or very near the bottom of the page
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+
+      const sorted = [...visibleBlocks.keys()].sort((a, b) => {
+        const rectA = visibleElements.get(a)?.getBoundingClientRect();
+        const rectB = visibleElements.get(b)?.getBoundingClientRect();
+        const topA = rectA ? rectA.top : 0;
+        const topB = rectB ? rectB.top : 0;
+        return topA - topB;
+      });
+
+      let selectedBlocks: string[];
+      if (isAtBottom && sorted.length >= 2) {
+        selectedBlocks = sorted.slice(-2);
+      } else {
+        selectedBlocks = sorted.slice(0, 2);
+      }
+      const nextActive = new Set(selectedBlocks);
 
       for (const blockId of activeBlocks) {
         if (!nextActive.has(blockId)) {
@@ -157,6 +173,8 @@ export default function ReadingTracker({ pageId }: Props) {
       const now = Date.now();
       if (now - lastScrollEmit < 180) return;
       lastScrollEmit = now;
+
+      updateActiveBlocks();
 
       const deepestVisibleBlock = [...visibleBlocks.entries()].sort((a, b) => b[1] - a[1])[0];
       if (!deepestVisibleBlock) return;
