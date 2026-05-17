@@ -279,3 +279,186 @@ a {
   color: rgba(232, 227, 216, 0.34);
   font-size: clamp(18px, 2vw, 28px);
 }
+
+.ranking-page {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(232, 227, 216, 0.045) 0 1px, transparent 1px 100%) 0 0 /
+      72px 72px,
+    linear-gradient(180deg, #10100e 0%, #080807 100%);
+  color: var(--display-ink);
+}
+
+.ranking-board {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  height: 100%;
+  padding: clamp(28px, 4vw, 64px);
+}
+
+.ranking-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  border-bottom: 1px solid rgba(232, 227, 216, 0.24);
+  padding-bottom: 22px;
+}
+
+.ranking-kicker {
+  margin-bottom: 10px;
+  color: rgba(232, 227, 216, 0.58);
+  font-size: clamp(12px, 0.9vw, 16px);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.ranking-header h1 {
+  margin: 0;
+  font-size: clamp(36px, 6vw, 96px);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.ranking-session-count {
+  min-width: 1.8em;
+  color: rgba(232, 227, 216, 0.88);
+  font-size: clamp(54px, 8vw, 132px);
+  font-weight: 400;
+  line-height: 0.85;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ranking-list {
+  display: grid;
+  align-content: stretch;
+  gap: clamp(12px, 1.45vw, 22px);
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ranking-item {
+  --rank-ratio: 0;
+  --active-weight: 0;
+  display: grid;
+  grid-template-columns: clamp(46px, 5vw, 76px) minmax(0, 1fr);
+  gap: clamp(16px, 2vw, 32px);
+  align-items: center;
+  min-height: 0;
+  opacity: calc(0.42 + var(--rank-ratio) * 0.4 + var(--active-weight) * 0.18);
+  transition:
+    opacity 240ms ease,
+    transform 360ms ease;
+}
+
+.ranking-item[data-active="true"] {
+  transform: translateX(calc(var(--active-weight) * 14px));
+}
+
+.ranking-number {
+  color: rgba(232, 227, 216, 0.48);
+  font-size: clamp(20px, 2.5vw, 42px);
+  font-variant-numeric: tabular-nums;
+}
+
+.ranking-body {
+  display: grid;
+  gap: clamp(8px, 1vw, 14px);
+  min-width: 0;
+}
+
+.ranking-title-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: clamp(18px, 3vw, 48px);
+}
+
+.ranking-title-row h2 {
+  overflow: hidden;
+  margin: 0;
+  color: rgba(232, 227, 216, 0.94);
+  font-size: clamp(28px, 3.7vw, 72px);
+  font-weight: 400;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ranking-title-row span {
+  color: rgba(232, 227, 216, 0.62);
+  font-size: clamp(16px, 1.5vw, 28px);
+  font-variant-numeric: tabular-nums;
+}
+
+.ranking-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(8px, 0.9vw, 14px);
+  min-width: 6.6em;
+}
+
+.ranking-triangle {
+  width: 0;
+  height: 0;
+  border-right: clamp(6px, 0.7vw, 11px) solid transparent;
+  border-left: clamp(6px, 0.7vw, 11px) solid transparent;
+  opacity: 0.26;
+  transition:
+    border-color 240ms ease,
+    opacity 240ms ease,
+    transform 240ms ease;
+}
+
+.ranking-item[data-trend="up"] .ranking-triangle {
+  border-bottom: clamp(10px, 1vw, 17px) solid #4d8cff;
+  opacity: calc(0.68 + var(--active-weight) * 0.32);
+  transform: translateY(-1px);
+}
+
+.ranking-item[data-trend="down"] .ranking-triangle {
+  border-top: clamp(10px, 1vw, 17px) solid #ff4f5e;
+  opacity: 0.72;
+  transform: translateY(1px);
+}
+
+.ranking-item[data-trend="steady"] .ranking-triangle {
+  border-bottom: clamp(10px, 1vw, 17px) solid rgba(232, 227, 216, 0.22);
+  transform: scaleY(0.42);
+}
+
+.ranking-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: rgba(232, 227, 216, 0.44);
+  font-size: clamp(11px, 0.95vw, 16px);
+  text-transform: uppercase;
+}
+
+.ranking-bar {
+  position: relative;
+  height: clamp(3px, 0.45vw, 7px);
+  overflow: hidden;
+  background: rgba(232, 227, 216, 0.12);
+}
+
+.ranking-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(232, 227, 216, 0.88);
+  box-shadow: 0 0 calc(var(--active-weight) * 32px) rgba(232, 227, 216, 0.42);
+  transform: scaleX(var(--rank-ratio));
+  transform-origin: left center;
+  transition:
+    box-shadow 220ms ease,
+    transform 320ms ease;
+}

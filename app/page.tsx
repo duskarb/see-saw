@@ -31,10 +31,6 @@ export default function Home() {
             <span>Mobile Surface Test</span>
             <small>Internal use</small>
           </Link>
-          <Link href="/display">
-            <span>Live Exhibition Text Display</span>
-            <small>Dashboard</small>
-          </Link>
         </nav>
         <footer className="guide-footer" style={{ marginTop: '4rem', opacity: 0.5, fontSize: '0.75rem', textAlign: 'center' }}>
           Altered Seeing / &lt;see-saw&gt;

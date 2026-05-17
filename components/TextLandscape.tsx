@@ -59,8 +59,8 @@ export default function TextLandscape() {
         const recentAge = block.lastActiveAt ? snapshot.generatedAt - block.lastActiveAt : Infinity;
         const currentFocus = clamp(1 - recentAge / 2500, 0, 1);
         
-        // 1. 시간이 지나면 사라짐 (예: 60초 지나면 크기가 0)
-        const survivalRate = clamp(1 - recentAge / 60000, 0, 1);
+        // 1. 시간이 지나면 사라짐 (예: 5분(300초) 지나면 크기가 0)
+        const survivalRate = clamp(1 - recentAge / 300000, 0, 1);
         
         // 2. 오래 읽힘 -> 커짐
         const baseFontSize = 16 + weight * 100; // 최대 116px까지 커짐

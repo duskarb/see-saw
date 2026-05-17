@@ -20,12 +20,17 @@ app.prepare().then(() => {
   });
 
   const broadcastSnapshot = () => {
-    io.to("display").emit("aggregate:update", getSnapshot());
+    io.to("display").to("ranking").emit("aggregate:update", getSnapshot());
   };
 
   io.on("connection", (socket) => {
     socket.on("display:join", () => {
       socket.join("display");
+      socket.emit("aggregate:update", getSnapshot());
+    });
+
+    socket.on("ranking:join", () => {
+      socket.join("ranking");
       socket.emit("aggregate:update", getSnapshot());
     });
 
