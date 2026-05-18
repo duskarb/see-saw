@@ -185,7 +185,8 @@ export default function ReadingTracker({ pageId }: Props) {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pagehide", leave);
       document.removeEventListener("visibilitychange", onVisibilityChange);
-      socket.disconnect();
+      // delay disconnect so the leave event has time to transmit
+      window.setTimeout(() => socket.disconnect(), 300);
     };
   }, [pageId, sessionId]);
 

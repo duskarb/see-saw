@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { networkInterfaces } from "node:os";
 import next from "next";
 import { Server } from "socket.io";
 import { getSnapshot, ingestEvent, registerSession } from "./aggregator";
@@ -10,6 +11,13 @@ const port = Number(process.env.PORT || 3000);
 
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
+
+function getNetworkHosts() {
+  return Object.values(networkInterfaces())
+    .flatMap((networkInterface) => networkInterface ?? [])
+    .filter((address) => address.family === "IPv4" && !address.internal)
+    .map((address) => address.address);
+}
 
 app.prepare().then(() => {
   const httpServer = createServer(handler);
@@ -48,6 +56,16 @@ app.prepare().then(() => {
   setInterval(broadcastSnapshot, 2500);
 
   httpServer.listen(port, hostname, () => {
-    console.log(`Altered Seeing prototype ready at http://${hostname}:${port}`);
+    console.log("Altered Seeing prototype ready:");
+    console.log(`  Local:   http://localhost:${port}`);
+
+    const networkHosts = getNetworkHosts();
+    if (networkHosts.length > 0) {
+      networkHosts.forEach((host) => {
+        console.log(`  Network: http://${host}:${port}`);
+      });
+    } else {
+      console.log("  Network: no external IPv4 address found");
+    }
   });
 });

@@ -57,7 +57,7 @@ export default function TextLandscape() {
         
         // 실시간으로 읽히고 있는 텍스트인지 판별
         const recentAge = block.lastActiveAt ? snapshot.generatedAt - block.lastActiveAt : Infinity;
-        const currentFocus = clamp(1 - recentAge / 2500, 0, 1);
+        const currentFocus = clamp(1 - recentAge / 8000, 0, 1);
         
         // 1. 시간이 지나면 사라짐 (예: 5분(300초) 지나면 크기가 0)
         const survivalRate = clamp(1 - recentAge / 300000, 0, 1);
@@ -83,9 +83,9 @@ export default function TextLandscape() {
         if (finalFontSize < 0.5) return null; // 크기가 거의 0이면 DOM에서 제거
 
         const isDecaying = currentFocus === 0;
-        const transitionStyle = isDecaying 
-          ? "all 2.5s linear" 
-          : "all 0.2s ease-out";
+        const transitionStyle = isDecaying
+          ? "all 2.5s linear"
+          : "all 2.5s ease-out";
 
         const lineStyle = {
           left: `${x}%`,

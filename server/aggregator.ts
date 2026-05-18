@@ -67,7 +67,8 @@ function closeOpenView(event: ReadingEvent) {
 
 function recordOpenViewTime(event: ReadingEvent, open: OpenView) {
   const aggregate = ensureAggregate(event.pageId, event.blockId);
-  const elapsed = Math.max(0, event.timestamp - open.lastRecordedAt);
+  // heartbeat is 350ms; cap at ~2s to prevent idle-gap spikes
+  const elapsed = Math.min(2000, Math.max(0, event.timestamp - open.lastRecordedAt));
   aggregate.totalViewTime += elapsed * Math.max(0.15, open.visibleRatio);
   aggregate.lastActiveAt = event.timestamp;
   open.lastRecordedAt = event.timestamp;
